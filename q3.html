@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza Order Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+        input[type="radio"], input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #summary {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Pizza Order Form</h1>
+        <form id="pizzaForm">
+            <label>Select Pizza Size:</label>
+            <label><input type="radio" name="size" value="Small"> Small</label>
+            <label><input type="radio" name="size" value="Medium"> Medium</label>
+            <label><input type="radio" name="size" value="Large"> Large</label>
+            
+            <label>Select Toppings:</label>
+            <label><input type="checkbox" name="toppings" value="Cheese"> Cheese</label>
+            <label><input type="checkbox" name="toppings" value="Pepperoni"> Pepperoni</label>
+            <label><input type="checkbox" name="toppings" value="Mushrooms"> Mushrooms</label>
+            <label><input type="checkbox" name="toppings" value="Olives"> Olives</label>
+            <label><input type="checkbox" name="toppings" value="Peppers"> Peppers</label>
+            <label><input type="checkbox" name="toppings" value="Bacon"> Bacon</label>
+            
+            <button type="button" onclick="submitOrder()">Submit Order</button>
+        </form>
+
+        <div id="summary" style="display: none;">
+            <h2>Order Summary:</h2>
+            <p id="orderDetails"></p>
+        </div>
+    </div>
+
+    <script>
+        function submitOrder() {
+            const form = document.getElementById('pizzaForm');
+            const size = form.querySelector('input[name="size"]:checked');
+            const toppings = form.querySelectorAll('input[name="toppings"]:checked');
+            
+            if (!size) {
+                alert("Please select a pizza size.");
+                return;
+            }
+            
+            const selectedSize = size.value;
+            const selectedToppings = Array.from(toppings).map(topping => topping.value);
+            
+            let summaryText = `You ordered a ${selectedSize} pizza with the following toppings: `;
+            
+            if (selectedToppings.length > 0) {
+                summaryText += selectedToppings.join(', ');
+            } else {
+                summaryText += "No toppings.";
+            }
+
+            document.getElementById('orderDetails').textContent = summaryText;
+            document.getElementById('summary').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
