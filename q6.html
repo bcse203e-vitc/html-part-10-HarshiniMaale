@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layered Image Gallery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .gallery-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 50px auto;
+        }
+
+        .image {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transition: z-index 0.3s ease;
+        }
+
+        .image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image:nth-child(1) {
+            z-index: 1; /* Image 1 at the bottom */
+        }
+
+        .image:nth-child(2) {
+            z-index: 2; /* Image 2 in the middle */
+        }
+
+        .image:nth-child(3) {
+            z-index: 3; /* Image 3 on top */
+        }
+
+        .image:hover {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Layered Image Gallery</h1>
+    <p>Click on an image to bring it to the front.</p>
+
+    <div class="gallery-container">
+        <div class="image" id="image1">
+            <img src="https://via.placeholder.com/300x300?text=Image+1" alt="Image 1">
+        </div>
+        <div class="image" id="image2">
+            <img src="https://via.placeholder.com/300x300?text=Image+2" alt="Image 2">
+        </div>
+        <div class="image" id="image3">
+            <img src="https://via.placeholder.com/300x300?text=Image+3" alt="Image 3">
+        </div>
+    </div>
+
+    <script>
+        // Get all image elements
+        const images = document.querySelectorAll('.image');
+
+        // Add click event listener to each image
+        images.forEach(image => {
+            image.addEventListener('click', function() {
+                // Reset all z-index values to 1
+                images.forEach(img => img.style.zIndex = 1);
+
+                // Set the clicked image to the highest z-index
+                this.style.zIndex = 4;
+            });
+        });
+    </script>
+
+</body>
+</html>
