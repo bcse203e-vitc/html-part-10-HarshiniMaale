@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplication Table Generator</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 50%;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Multiplication Table Generator</h1>
+
+    <form id="multTableForm">
+        <fieldset>
+            <legend>Enter a number to generate the multiplication table:</legend>
+            <label for="number">Number: </label>
+            <input type="number" id="number" required>
+            <button type="submit">Generate Table</button>
+        </fieldset>
+    </form>
+
+    <div id="output"></div>
+
+    <script>
+        document.getElementById('multTableForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            let number = document.getElementById('number').value;
+            if (number) {
+                generateTable(number);
+            }
+        });
+
+        function generateTable(number) {
+            let tableHTML = `<h2>Multiplication Table for ${number}</h2><table>`;
+            tableHTML += `<tr><th>Multiplier</th><th>Result</th></tr>`;
+            for (let i = 1; i <= 10; i++) {
+                tableHTML += `<tr><td>${i}</td><td>${i * number}</td></tr>`;
+            }
+            tableHTML += '</table>';
+            
+            document.getElementById('output').innerHTML = tableHTML;
+        }
+    </script>
