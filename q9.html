@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Drawing App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        canvas {
+            border: 1px solid #000;
+        }
+
+        .controls {
+            margin-top: 20px;
+        }
+
+        .control-item {
+            margin: 10px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .slider {
+            width: 100px;
+        }
+
+        .color-picker {
+            height: 30px;
+            width: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Simple Drawing App</h1>
+
+    <!-- Canvas for drawing -->
+    <canvas id="drawingCanvas" width="500" height="400"></canvas>
+
+    <!-- Controls for brush size, color, and clear button -->
+    <div class="controls">
+        <div class="control-item">
+            <label for="brushSize">Brush Size:</label>
+            <input type="range" id="brushSize" class="slider" min="1" max="20" value="5">
+            <span id="brushSizeValue">5</span>
+        </div>
+
+        <div class="control-item">
+            <label for="colorPicker">Brush Color:</label>
+            <input type="color" id="colorPicker" value="#000000">
+        </div>
+
+        <div class="control-item">
+            <button class="button" id="clearButton">Clear Canvas</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('drawingCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Default brush settings
+        let brushSize = 5;
+        let brushColor = "#000000";
+
+        // Canvas drawing state
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+
+        // Update brush size when slider value changes
+        document.getElementById('brushSize').addEventListener('input', function(e) {
+            brushSize = e.target.value;
+            document.getElementById('brushSizeValue').textContent = brushSize;
+        });
+
+        // Update brush color when color picker value changes
+        document.getElementById('colorPicker').addEventListener('input', function(e) {
+            brushColor = e.target.value;
+        });
+
+        // Start drawing
+        canvas.addEventListener('mousedown', function(e) {
+            isDrawing = true;
+            lastX = e.offsetX;
+            lastY = e.offsetY;
+        });
+
+        // Draw while mouse is moving
+        canvas.addEventListener('mousemove', function(e) {
+            if (isDrawing) {
+                ctx.strokeStyle = brushColor;
+                ctx.lineWidth = brushSize;
+                ctx.lineJoin = ctx.lineCap = 'round';
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(e.offsetX, e.offsetY);
+                ctx.stroke();
+                lastX = e.offsetX;
+                lastY = e.offsetY;
+            }
+        });
+
+        // Stop drawing
+        canvas.addEventListener('mouseup', function() {
+            isDrawing = false;
+        });
+
+        // Stop drawing when mouse leaves canvas
+        canvas.addEventListener('mouseout', function() {
+            isDrawing = false;
+        });
+
+        // Clear the canvas
+        document.getElementById('clearButton').addEventListener('click', function() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+    </script>
+
+</body>
+</html>
